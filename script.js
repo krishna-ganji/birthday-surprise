@@ -1,582 +1,228 @@
-/* ==========================================
-   GET SCREENS
-========================================== */
+// =====================================
+// ELEMENTS
+// =====================================
 
-const welcome =
-    document.getElementById("welcome");
+const screens = document.querySelectorAll(".screen");
 
-const birthday =
-    document.getElementById("birthday");
-
-const memories =
-    document.getElementById("memories");
-
-const story =
-    document.getElementById("story");
-
-const letter =
-    document.getElementById("letter");
-
-const finalScreen =
-    document.getElementById("final");
-
-
-/* ==========================================
-   GET BUTTONS
-========================================== */
-
-const openBtn =
-    document.getElementById("openBtn");
-
-const memoriesBtn =
-    document.getElementById("memoriesBtn");
-
-const storyBtn =
-    document.getElementById("storyBtn");
-
-const letterBtn =
-    document.getElementById("letterBtn");
-
-const finalBtn =
-    document.getElementById("finalBtn");
-
-
-/* ==========================================
-   LETTER
-========================================== */
-
-const envelope =
-    document.getElementById("envelope");
-
-const letterContent =
-    document.getElementById("letterContent");
-
-
-/* ==========================================
-   MUSIC
-========================================== */
+const openBtn = document.getElementById("openBtn");
 
 const backgroundMusic =
     document.getElementById("backgroundMusic");
 
-
-/* ==========================================
-   SHOW SCREEN
-========================================== */
-
-function showScreen(screen) {
-
-    const allScreens =
-        document.querySelectorAll(".screen");
+const confettiContainer =
+    document.getElementById("confetti-container");
 
 
-    allScreens.forEach(
-        section => {
+// =====================================
+// SHOW SCREEN
+// =====================================
 
-            section.classList.remove(
-                "active"
-            );
+function showScreen(screenId) {
 
-        }
-    );
-
-
-    screen.classList.add(
-        "active"
-    );
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
+    screens.forEach((screen) => {
+        screen.classList.remove("active");
     });
 
+
+    const nextScreen =
+        document.getElementById(screenId);
+
+
+    if (nextScreen) {
+
+        nextScreen.classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
 }
 
 
-/* ==========================================
-   OPEN SURPRISE
-========================================== */
-
-openBtn.addEventListener(
-    "click",
-    () => {
-
-        showScreen(birthday);
-
-        startMusic();
-
-        createConfetti();
-
-    }
-);
-
-
-/* ==========================================
-   BIRTHDAY → MEMORIES
-========================================== */
-
-memoriesBtn.addEventListener(
-    "click",
-    () => {
-
-        showScreen(memories);
-
-    }
-);
-
-
-/* ==========================================
-   MEMORIES → STORY
-========================================== */
-
-storyBtn.addEventListener(
-    "click",
-    () => {
-
-        showScreen(story);
-
-    }
-);
-
-
-/* ==========================================
-   STORY → LETTER
-========================================== */
-
-letterBtn.addEventListener(
-    "click",
-    () => {
-
-        showScreen(letter);
-
-    }
-);
-
-
-/* ==========================================
-   OPEN LETTER
-========================================== */
-
-envelope.addEventListener(
-    "click",
-    () => {
-
-        envelope.style.display =
-            "none";
-
-        letterContent.classList.add(
-            "show"
-        );
-
-        createHeartBurst();
-
-    }
-);
-
-
-/* ==========================================
-   LETTER → FINAL
-========================================== */
-
-finalBtn.addEventListener(
-    "click",
-    () => {
-
-        showScreen(finalScreen);
-
-        createConfetti();
-
-        createHeartBurst();
-
-    }
-);
-
-
-/* ==========================================
-   MUSIC
-========================================== */
+// =====================================
+// START MUSIC
+// =====================================
 
 function startMusic() {
 
-    backgroundMusic.volume =
-        0.35;
+    if (!backgroundMusic) {
+        return;
+    }
 
 
-    backgroundMusic.play()
-        .catch(
-            error => {
+    backgroundMusic.volume = 0.5;
 
-                console.log(
-                    "Music could not start:",
-                    error
-                );
 
-            }
-        );
+    backgroundMusic
+        .play()
+        .then(() => {
 
+            console.log("Music started");
+
+        })
+        .catch((error) => {
+
+            console.log(
+                "Music could not start:",
+                error
+            );
+
+        });
 }
 
 
-/* ==========================================
-   CONFETTI
-========================================== */
+// =====================================
+// OPEN SURPRISE
+// =====================================
+
+openBtn.addEventListener("click", () => {
+
+    showScreen("birthday");
+
+    startMusic();
+
+    createConfetti();
+
+});
+
+
+// =====================================
+// NEXT BUTTONS
+// =====================================
+
+const nextButtons =
+    document.querySelectorAll(".next-button");
+
+
+nextButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        const nextScreen =
+            button.getAttribute("data-next");
+
+
+        if (nextScreen) {
+
+            showScreen(nextScreen);
+
+        }
+
+    });
+
+});
+
+
+// =====================================
+// CONFETTI
+// =====================================
 
 function createConfetti() {
 
-    const symbols = [
+    if (!confettiContainer) {
+        return;
+    }
 
+
+    confettiContainer.innerHTML = "";
+
+
+    const symbols = [
         "❤️",
         "💕",
         "✨",
-        "🎉",
-        "💖",
         "🌸",
-        "🎊",
-        "🎂"
-
+        "💖",
+        "🎉"
     ];
 
 
-    for (
-        let i = 0;
-        i < 80;
-        i++
-    ) {
+    for (let i = 0; i < 70; i++) {
+
+        const piece =
+            document.createElement("div");
 
 
-        const confetti =
-            document.createElement(
-                "div"
-            );
+        piece.classList.add("confetti");
 
 
-        confetti.innerHTML =
+        piece.textContent =
             symbols[
                 Math.floor(
-                    Math.random() *
-                    symbols.length
+                    Math.random() * symbols.length
                 )
             ];
 
 
-        confetti.style.position =
-            "fixed";
+        piece.style.left =
+            Math.random() * 100 + "%";
 
 
-        confetti.style.left =
-            Math.random() * 100 + "vw";
+        piece.style.animationDelay =
+            Math.random() * 3 + "s";
 
 
-        confetti.style.top =
-            "-30px";
+        piece.style.fontSize =
+            Math.random() * 12 + 10 + "px";
 
 
-        confetti.style.fontSize =
-            Math.random() * 20 + 15 + "px";
-
-
-        confetti.style.zIndex =
-            "9999";
-
-
-        confetti.style.pointerEvents =
-            "none";
-
-
-        document.body.appendChild(
-            confetti
-        );
-
-
-        const duration =
-            Math.random() * 3000 +
-            2500;
-
-
-        const rotation =
-            Math.random() * 720;
-
-
-        confetti.animate(
-
-            [
-
-                {
-
-                    transform:
-                        "translateY(0) rotate(0deg)",
-
-                    opacity: 1
-
-                },
-
-                {
-
-                    transform:
-                        `translateY(110vh)
-                         rotate(${rotation}deg)`,
-
-                    opacity: 0
-
-                }
-
-            ],
-
-            {
-
-                duration:
-                    duration,
-
-                easing:
-                    "ease-out"
-
-            }
-
-        );
-
-
-        setTimeout(
-            () => {
-
-                confetti.remove();
-
-            },
-            duration
-        );
+        confettiContainer.appendChild(piece);
 
     }
 
 }
 
 
-/* ==========================================
-   FLOATING HEARTS
-========================================== */
+// =====================================
+// TRY TO RESUME MUSIC AFTER INTERACTION
+// =====================================
 
-const heartsContainer =
-    document.querySelector(
-        ".hearts-container"
-    );
+document.addEventListener("click", () => {
 
+    if (
+        backgroundMusic &&
+        backgroundMusic.paused
+    ) {
 
-function createHeart() {
+        backgroundMusic
+            .play()
+            .catch(() => {
+                // Browser may still block playback.
+            });
 
-    const heart =
-        document.createElement(
-            "div"
-        );
+    }
 
-
-    heart.classList.add(
-        "floating-heart"
-    );
-
-
-    const hearts = [
-
-        "❤️",
-        "💕",
-        "💗",
-        "💖",
-        "💓"
-
-    ];
+});
 
 
-    heart.innerHTML =
-        hearts[
-            Math.floor(
-                Math.random() *
-                hearts.length
-            )
-        ];
+// =====================================
+// KEYBOARD SUPPORT
+// =====================================
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (event.key === "Enter") {
+
+            const activeScreen =
+                document.querySelector(
+                    ".screen.active"
+                );
 
 
-    heart.style.left =
-        Math.random() * 100 + "vw";
+            if (
+                activeScreen &&
+                activeScreen.id === "welcome"
+            ) {
 
+                openBtn.click();
 
-    heart.style.fontSize =
-        Math.random() * 20 +
-        12 +
-        "px";
+            }
 
+        }
 
-    const duration =
-        Math.random() * 8 + 7;
-
-
-    heart.style.animationDuration =
-        duration + "s";
-
-
-    heartsContainer.appendChild(
-        heart
-    );
-
-
-    setTimeout(
-        () => {
-
-            heart.remove();
-
-        },
-        duration * 1000
-    );
-
-}
-
-
-/* Create hearts */
-
-setInterval(
-    createHeart,
-    700
+    }
 );
-
-
-/* ==========================================
-   HEART BURST
-========================================== */
-
-function createHeartBurst() {
-
-    const symbols = [
-
-        "❤️",
-        "💕",
-        "💖",
-        "💗"
-
-    ];
-
-
-    for (
-        let i = 0;
-        i < 25;
-        i++
-    ) {
-
-
-        const heart =
-            document.createElement(
-                "div"
-            );
-
-
-        heart.innerHTML =
-            symbols[
-                Math.floor(
-                    Math.random() *
-                    symbols.length
-                )
-            ];
-
-
-        heart.style.position =
-            "fixed";
-
-
-        heart.style.left =
-            "50%";
-
-
-        heart.style.top =
-            "50%";
-
-
-        heart.style.fontSize =
-            Math.random() * 20 +
-            15 +
-            "px";
-
-
-        heart.style.zIndex =
-            "10000";
-
-
-        heart.style.pointerEvents =
-            "none";
-
-
-        document.body.appendChild(
-            heart
-        );
-
-
-        const angle =
-            Math.random() *
-            Math.PI *
-            2;
-
-
-        const distance =
-            Math.random() * 250 +
-            100;
-
-
-        const x =
-            Math.cos(angle) *
-            distance;
-
-
-        const y =
-            Math.sin(angle) *
-            distance;
-
-
-        heart.animate(
-
-            [
-
-                {
-
-                    transform:
-                        "translate(-50%, -50%) scale(0)",
-
-                    opacity: 1
-
-                },
-
-                {
-
-                    transform:
-                        `translate(
-                            calc(-50% + ${x}px),
-                            calc(-50% + ${y}px)
-                        )
-                        scale(1.2)`,
-
-                    opacity: 0
-
-                }
-
-            ],
-
-            {
-
-                duration: 1200,
-
-                easing: "ease-out"
-
-            }
-
-        );
-
-
-        setTimeout(
-            () => {
-
-                heart.remove();
-
-            },
-            1200
-        );
-
-    }
-
-}
