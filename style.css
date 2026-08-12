@@ -1324,3 +1324,163 @@ h1 {
     }
 
 }
+
+/* ========================================
+   BACK BUTTON
+======================================== */
+
+.back-button {
+
+    position: fixed;
+
+    left: 20px;
+
+    bottom: 20px;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 12px 20px;
+
+    border: none;
+
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #c2185b;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.15);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.back-button:hover {
+
+    transform: translateX(-5px);
+
+    background: white;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.2);
+
+}
+
+
+/* ========================================
+   MOBILE BACK BUTTON
+======================================== */
+
+@media (max-width: 600px) {
+
+    .back-button {
+
+        left: 12px;
+
+        bottom: 12px;
+
+        padding: 10px 16px;
+
+        font-size: 14px;
+
+    }
+
+}
+/* ========================================
+   FINAL SURPRISE BUTTON
+======================================== */
+
+#finalBtn {
+    display: block;
+
+    margin: 35px auto 0;
+
+    padding: 16px 35px;
+
+    border: none;
+
+    border-radius: 50px;
+
+    background: linear-gradient(
+        135deg,
+        #ff4f81,
+        #d6336c
+    );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(214, 51, 108, 0.35);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* Hover */
+
+#finalBtn:hover {
+
+    transform:
+        translateY(-5px)
+        scale(1.04);
+
+    box-shadow:
+        0 15px 35px rgba(214, 51, 108, 0.45);
+
+}
+
+
+/* Click */
+
+#finalBtn:active {
+
+    transform:
+        translateY(-1px)
+        scale(0.98);
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    #finalBtn {
+
+        padding: 14px 28px;
+
+        font-size: 16px;
+
+    }
+
+}
